@@ -14,20 +14,29 @@ datasource db {
 }
 
 model User {
-    id       		String    @id @default(uuid())
-    number   		String    @unique
-    name     		String?
-    verified 		Boolean   @default(false)
-    Bookings 		Booking[]
-    payments 		Payment[]
+    id       String    @id @default(uuid())
+    number   String    @unique
+    name     String?
+    verified Boolean   @default(false)
+    Bookings Booking[]
+    payments Payment[]
 }
 
 model Admin {
-    id       String  @id @default(uuid())
-    number   String  @unique
-    name     String?
-    verified Boolean @default(false)
-    events   Event[]
+    id        String   @id @default(uuid())
+    number    String   @unique
+    name      String?
+    verified  Boolean  @default(false)
+    events    Event[]
+    startTime DateTime
+}
+
+model Location {
+    id          String  @id @default(uuid())
+    name        String
+    description String
+    imageurl    String
+    event       Event[]
 }
 
 model Event {
@@ -38,16 +47,18 @@ model Event {
     AdminId     String
     admin       Admin     @relation(fields: [AdminId], references: [id])
     bookings    Booking[]
-    payments 	Payment[]
+    payments    Payment[]
+    locationId  String
+    location    Location  @relation(fields: [locationId], references: [id])
 }
 
 model Booking {
-    id       String @id @default(uuid())
-    eventId  String  
-    userId   String
-    event    Event   @relation(fields: [eventId], references: [id])
-    user     User    @relation(fields: [userId], references: [id])
-    seats    Seat[]
+    id      String @id @default(uuid())
+    eventId String
+    userId  String
+    event   Event  @relation(fields: [eventId], references: [id])
+    user    User   @relation(fields: [userId], references: [id])
+    seats   Seat[]
 }
 
 model Seat {
@@ -56,7 +67,7 @@ model Seat {
     BookingId  String
     qr         String
     seatType   SeatType @relation(fields: [SeatTypeId], references: [id])
-    booking    Booking  @relation(fields: [BookingId], references: [id]) 
+    booking    Booking  @relation(fields: [BookingId], references: [id])
 }
 
 model SeatType {
@@ -69,12 +80,12 @@ model SeatType {
 }
 
 model Payment {
-    id     			String       @id @default(uuid())
-    evenId 			String
-    userId 			String
-    status 			PaymentState
-    user   			User         @relation(fields: [userId], references: [id])
-    event  			Event        @relation(fields: [evenId], references: [id])
+    id     String       @id @default(uuid())
+    evenId String
+    userId String
+    status PaymentState
+    user   User         @relation(fields: [userId], references: [id])
+    event  Event        @relation(fields: [evenId], references: [id])
 }
 
 enum PaymentState {
