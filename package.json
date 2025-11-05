@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "dev": " npm run build && npm run start"
   },
   "keywords": [],
@@ -23,6 +23,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "prisma": "^6.18.0",
+    "twilio": "^5.10.4",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
